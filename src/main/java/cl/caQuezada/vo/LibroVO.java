@@ -6,13 +6,13 @@ import cl.caQuezada.model.Libro;
 
 public class LibroVO {
 
-	private List<Libro> libros;
+	List<Libro> libros;
 	String mensaje;
 	String codigo;
 	
 	
 	
-	public LibroVO() {}
+	//public LibroVO() {}
 	
 	public LibroVO(List<Libro> libros, String mensaje, String codigo) {
 		super();
@@ -37,5 +37,9 @@ public class LibroVO {
 	}
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
+	}
+	@Override
+	public String toString() {
+		return "LibroVO [libros=" + libros + ", mensaje=" + mensaje + ", codigo=" + codigo + "]";
 	}
 }

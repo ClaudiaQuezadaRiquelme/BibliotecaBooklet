@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booklet</title>
+    
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+    crossorigin="anonymous">
+</head>
+<body>
+
+	<div class="my-3 text-center">
+		<h1>Biblioteca Booklet</h1>
+	</div>
+	
+	<!-- Agregar libros -->
+	<section class="container">
+		<div class="row">
+			<div class="col">
+				<div>
+					<button type="button" class="btn btn-success me-md-2"
+						data-bs-toggle="modal" data-bs-target="#addModal">
+						Agregar Libro
+					</button>
+				</div>
+			</div>
+			<div class="col">
+				<form th:action="@{/findByTituloAndAutor}" 
+					modelAttribute="libro" method="POST">
+				
+					<div class="input-group mb-3">
+						<input type="text" class="form-control"
+							placeholder="Ingrese Titulo del libro" 
+							aria-label="Autor" name="titulo">
+						<input type="text" class="form-control"
+							placeholder="Ingrese Autor del libro" 
+							aria-label="Autor" name="autor">
+						<button class="btn btn-outline-secondary" 
+							type="submit" id="button-addon2">
+							Buscar
+						</button>
+					</div>	
+				</form>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Modal ADD -->
+	<div class="modal fade" id="addModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="title">Agregar Libro</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/addLibro}" modelAttribute="libro" method="POST">
+						<div>
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">Titulo</span> <input
+									type="text" class="form-control" placeholder="Titulo Libro"
+									name="titulo" id="titulo">
+							</div>
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">Autor</span> <input
+									type="text" class="form-control" placeholder="Autor Libro"
+									name="autor" id="autor">
+							</div>
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">Año</span> <input
+									type="text" class="form-control" placeholder="2021" name="anio"
+									id="anio">
+							</div>
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="basic-addon1">Imprenta</span>
+								<input type="text" class="form-control"
+									placeholder="Imprenta S.A." name="imprenta" id="imprenta">
+							</div>
+							<div class="mb-3">
+								<label class="input-label">Seleccione Disponibilidad</label> <select
+									class="form-control" name="disponible" id="disponible">
+									<option value="1">Disponible</option>
+									<option value="0">No Disponible</option>
+								</select>
+							</div>
+
+						</div>
+						<div>
+							<button type="button" class="btn btn-light"
+								data-bs-dismiss="modal">Cancelar</button>
+							<button type="submit" class="btn btn-dark">Guardar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- TABLA LIBROS -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Titulo</th>
+                <th>Autor</th>
+                <th>Año</th>
+                <th>Imprenta</th>
+                <th>Disponible</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="libro : ${librosVO.getLibros()}">
+                <td th:text="${libro.getTitulo()}" />
+                <td th:text="${libro.getAutor()}" />
+                <td th:text="${libro.getAnio()}" />
+                <td th:text="${libro.getImprenta()}" />
+                <td th:text="${libro.getDisponible() == 1} ? 'Disponible': 'No Disponible'" />
+                
+                <td><a
+						th:href="@{/findByIdLibro/?id_libro={id}(id=${libro.id_libro})}"
+						class="btn btn-primary btn-sm">Editar</a> 
+					<a
+						th:href="@{/deleteLibro/?id_libro={id}(id=${libro.id_libro})}"
+						class="btn btn-danger btn-sm">Eliminar</a>
+				</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+</body>
+</html>

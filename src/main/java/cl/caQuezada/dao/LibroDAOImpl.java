@@ -6,19 +6,21 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import cl.caQuezada.model.Libro;
 import cl.caQuezada.model.LibroMapper;
 
-public class LibroDAOImpl implements LIbroDAO {
+@Repository
+public class LibroDAOImpl implements LibroDAO {
 	
-	private JdbcTemplate jdbcTemplate;
-	private DataSource dataSource;
+	JdbcTemplate jdbcTemplate;
+	DataSource dataSource;
 	
 	@Autowired
 	public LibroDAOImpl(DataSource dataSource) {
 		this.dataSource = dataSource;
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
 	@Override
@@ -37,7 +39,7 @@ public class LibroDAOImpl implements LIbroDAO {
 	@Override
 	public int add(Libro libro) {
 		return jdbcTemplate.update(
-				"INSERT INTO LIBROS VALUES (NULL, ?,?,?,?,?",
+				"INSERT INTO LIBROS VALUES (NULL, ?,?,?,?,?)",
 				libro.getTitulo(),
 				libro.getAnio(), libro.getAutor(), libro.getImprenta(), libro.getDisponible());
 	}
@@ -55,5 +57,11 @@ public class LibroDAOImpl implements LIbroDAO {
 				libro.getAnio(), libro.getAutor(), libro.getImprenta(), libro.getDisponible(), libro.getId_libro());
 	}
 
-
+	@Override
+	public Libro findById(int id) {
+		return jdbcTemplate.queryForObject(
+				"SELECT * FROM LIBROS WHERE ID_LIBRO=?", 
+				new LibroMapper(),
+				new Object[] {id});
+	}
 }

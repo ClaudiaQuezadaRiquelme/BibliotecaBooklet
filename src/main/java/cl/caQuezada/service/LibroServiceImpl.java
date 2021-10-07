@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cl.caQuezada.dao.LIbroDAO;
+import cl.caQuezada.dao.LibroDAO;
 import cl.caQuezada.model.Libro;
 import cl.caQuezada.vo.LibroVO;
 
@@ -13,9 +13,9 @@ import cl.caQuezada.vo.LibroVO;
 public class LibroServiceImpl implements LibroService {
 
 	@Autowired
-	private LIbroDAO dao;
+	LibroDAO dao;
 	
-	private LibroVO respuesta;
+	LibroVO respuesta;
 
 	@Override
 	public LibroVO getAllLibros() {
@@ -77,6 +77,20 @@ public class LibroServiceImpl implements LibroService {
 		try {
 			int registrosActualizados = dao.delete(libro);
 			respuesta.setMensaje(String.format("Se ha/n eliminado correctamente %d libro/s", registrosActualizados));
+			respuesta.setCodigo("0");
+		} catch (Exception e) {
+			System.err.print(e);
+		}
+		return respuesta;
+	}
+	
+	@Override
+	public LibroVO findById(int id) {
+		respuesta = new LibroVO(new ArrayList<Libro>(), "Ha ocurrido un error", "106");
+		try {
+			Libro libro = dao.findById(id);
+			respuesta.getLibros().add(libro);
+			respuesta.setMensaje(String.format("Se ha/n encontrado %d libro/s", null != libro ? 1 : 0 ));
 			respuesta.setCodigo("0");
 		} catch (Exception e) {
 			System.err.print(e);

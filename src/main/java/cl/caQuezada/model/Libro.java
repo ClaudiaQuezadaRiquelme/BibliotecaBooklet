@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 @Component("libro")
 public class Libro {
 
-	private int id_libro;
+	private Integer id_libro;
 	private String titulo;
-	private int anio;
+	private Integer anio;
 	private String autor;
 	private String imprenta;
-	private int disponible; // 0 es no disponible, 1 es disponible
+	private Integer disponible; // 0 es no disponible, 1 es disponible
 	
 	
 	

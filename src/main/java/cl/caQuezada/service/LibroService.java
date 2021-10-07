@@ -5,9 +5,10 @@ import cl.caQuezada.vo.LibroVO;
 
 public interface LibroService {
 
-	LibroVO getAllLibros();
-	LibroVO findByTituloAndAutor(String titulo, String autor);
-	LibroVO add(Libro libro);
-	LibroVO update(Libro libro);
-	LibroVO delete(Libro libro);
+	public LibroVO getAllLibros();
+	public LibroVO findByTituloAndAutor(String titulo, String autor);
+	public LibroVO add(Libro libro);
+	public LibroVO update(Libro libro);
+	public LibroVO delete(Libro libro);
+	public LibroVO findById(int id);
 }
